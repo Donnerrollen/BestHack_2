@@ -1,27 +1,580 @@
-.map-container {
-    height: 100vh;
-    width: 100%;
+/* Сброс и базовые стили */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Анимации */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    
+    /* Скругления - только для кнопок */
+    --radius-button: 8px;
+}
+
+/* Темная тема (по умолчанию) */
+.dark-theme {
+    --bg-primary: #0a0f1c;
+    --bg-secondary: #1a2332;
+    --bg-gradient: linear-gradient(to bottom, #0f4d2e 0%, #1e3b70 100%);
+    --text-primary: #ffffff;
+    --text-secondary: #b8c2cc;
+    --accent-primary: #4CAF50;
+    --accent-secondary: #2196F3;
+    --border-color: #2d3748;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    --hover-lighten: 15%;
+    --search-bg: rgba(255, 255, 255, 0.1);
+    --search-border: rgba(255, 255, 255, 0.2);
+}
+
+/* Светлая тема */
+.light-theme {
+    --bg-primary: #f8fafc;
+    --bg-secondary: #ffffff;
+    --bg-gradient: linear-gradient(to bottom, #e8f5e8 0%, #e3f2fd 100%);
+    --text-primary: #2d3748;
+    --text-secondary: #4a5568;
+    --accent-primary: #45a049;
+    --accent-secondary: #1976d2;
+    --border-color: #e2e8f0;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    --hover-lighten: -10%;
+    --search-bg: rgba(255, 255, 255, 0.9);
+    --search-border: rgba(0, 0, 0, 0.1);
+}
+
+/* Основные стили */
+body {
+    font-family: 'Oxygen', sans-serif;
+    background: var(--bg-gradient);
+    color: var(--text-primary);
+    min-height: 100vh;
+    transition: background var(--transition-normal), color var(--transition-normal);
+}
+
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Переключатель темы */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.theme-btn {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-button);
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: var(--shadow);
+    transition: all var(--transition-fast);
+    backdrop-filter: blur(10px);
+}
+
+.theme-btn:hover {
+    transform: scale(1.1);
+    background: color-mix(in srgb, var(--bg-secondary) var(--hover-lighten), transparent);
+}
+
+/* Панель поиска */
+.search-panel {
+    width: 400px;
+    background: var(--bg-secondary);
+    padding: 30px;
+    box-shadow: var(--shadow);
+    overflow-y: auto;
+    transition: all var(--transition-normal);
 }
 
 .search-container {
-    position: sticky;
-    top: 20px;
+    height: 100%;
+}
+
+.app-title {
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: var(--text-primary);
+    text-align: center;
+}
+
+/* Переработанная форма поиска */
+search-form {
+    display: block;
+    margin-bottom: 2rem;
+}
+
+.search-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 2rem;
+    background: var(--search-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--search-border);
+    padding: 4px;
+    transition: all var(--transition-fast);
+}
+
+.search-form:focus-within {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-primary) 30%, transparent);
+    transform: translateY(-2px);
+}
+
+.search-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+}
+
+.search-icon {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    min-width: 20px;
+    transition: color var(--transition-fast);
+}
+
+.search-form:focus-within .search-icon {
+    color: var(--accent-primary);
+}
+
+.search-input {
+    flex: 1;
+    padding: 12px 0;
+    border: none;
+    background: transparent;
+    color: var(--text-primary);
+    font-family: 'Oxygen', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    transition: all var(--transition-fast);
+    outline: none;
+}
+
+.search-input::placeholder {
+    color: var(--text-secondary);
+    font-weight: 300;
+}
+
+.search-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px 8px 0;
+    border-top: 1px solid var(--search-border);
+}
+
+.search-btn {
+    padding: 10px 20px;
+    background: var(--accent-primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-button);
+    font-family: 'Oxygen', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-size: 0.95rem;
+    margin-left: auto;
+}
+
+.search-btn:hover {
+    background: color-mix(in srgb, var(--accent-primary) 85%, black);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.search-btn:active {
+    transform: translateY(0);
+}
+
+.clear-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: var(--radius-button);
+    transition: all var(--transition-fast);
+    font-size: 0.9rem;
+}
+
+.clear-btn:hover {
+    background: color-mix(in srgb, var(--text-secondary) 10%, transparent);
+    color: var(--text-primary);
+}
+
+/* Результаты поиска */
+search-results {
+    display: block;
+}
+
+.results-container h2 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+}
+
+.results-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .result-item {
-    transition: all 0.2s ease-in-out;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    padding: 20px;
     cursor: pointer;
+    transition: all var(--transition-fast);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .result-item:hover {
-    background-color: #f8f9fa;
-    transform: translateX(5px);
+    transform: translateX(4px) translateY(-2px);
+    border-color: var(--accent-primary);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.result-title {
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+}
+
+.result-address {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.result-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.result-rating {
+    color: #ffb400;
+    font-weight: 500;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.result-action {
+    background: var(--accent-secondary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-button);
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-weight: 500;
+}
+
+.result-action:hover {
+    background: color-mix(in srgb, var(--accent-secondary) 85%, black);
+    transform: scale(1.05);
+}
+
+.no-results {
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+    padding: 3rem 0;
+    font-size: 1rem;
+}
+
+/* Панель карты */
+.map-panel {
+    flex: 1;
+    position: relative;
+}
+
+.map-container {
+    width: 100%;
+    height: 100vh;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+    
+    .search-panel {
+        width: 100%;
+        max-height: 40vh;
+    }
+    
+    .map-container {
+        height: 60vh;
+    }
+    
+    .theme-toggle {
+        top: 10px;
+        right: 10px;
+    }
+    
+    .theme-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    .search-form {
+        margin-bottom: 1.5rem;
+    }
+}
+
+/* Плавная прокрутка */
+.search-panel {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) transparent;
+}
+
+.search-panel::-webkit-scrollbar {
+    width: 6px;
+}
+
+.search-panel::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.search-panel::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.result-item {
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.search-form {
+    animation: slideIn 0.4s ease-out;
+}
+
+/* Улучшения для Leaflet popup */
+.leaflet-popup-content-wrapper {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    box-shadow: var(--shadow);
+    font-family: 'Oxygen', sans-serif;
+}
+
+.leaflet-popup-tip {
+    background: var(--bg-secondary);
 }
 
 .leaflet-popup-content h6 {
-    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    font-weight: 600;
 }
 
 .leaflet-popup-content p {
-    margin-bottom: 0.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+    font-size: 0.9rem;
+}/* Стили для активной карточки */
+.result-item.active {
+    border-color: var(--accent-primary);
+    background: color-mix(in srgb, var(--accent-primary) 10%, transparent);
+    transform: translateX(4px);
 }
+
+/* Стили для координат */
+.result-coordinates {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 12px;
+}
+
+.coord-item {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.coord-item strong {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+/* Стили для процента соответствия */
+.result-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.score-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #4CAF50;
+}
+
+.score-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Стили для кастомных маркеров */
+.custom-marker {
+    position: relative;
+}
+
+.marker-pin {
+    width: 30px;
+    height: 30px;
+    border: 3px solid white;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.marker-label {
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    padding: 2px 6px;
+    border-radius: var(--radius-button);
+    font-size: 0.7rem;
+    font-weight: 600;
+    white-space: nowrap;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+}
+
+/* Стили для popup */
+.popup-content {
+    min-width: 250px;
+}
+
+.popup-address {
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.popup-coordinates {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.popup-coordinates div {
+    margin-bottom: 2px;
+}
+
+.popup-score {
+    margin-bottom: 12px;
+}
+
+.score-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 6px;
+}
+
+.score-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.score-value {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.popup-select-btn {
+    background: var(--accent-primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-button);
+    padding: 8px 16px;
+    cursor: pointer;
+    font-family: 'Oxygen', sans-serif;
+    font-size: 0.9rem;
+    transition: all var(--transition-fast);
+    width: 100%;
+}
+
+.popup-select-btn:hover {
+    background: color-mix(in srgb, var(--accent-primary) 85%, black);
+}
+
+/* Анимация появления маркеров */
+@keyframes bounce {
+    0% { transform: translateY(0) rotate(-45deg); }
+    50% { transform: translateY(-10px) rotate(-45deg); }
+    100% { transform: translateY(0) rotate(-45deg); }
+}
+
+.custom-marker .marker-pin {
+    animation: bounce 0.5s ease;
+}
+
+/* Цвета для разных уровней соответствия */
+.score-excellent { color: #4CAF50; }
+.score-good { color: #FFC107; }
+.score-poor { color: #F44336; }
