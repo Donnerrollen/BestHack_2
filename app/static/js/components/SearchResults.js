@@ -28,7 +28,7 @@ export default class SearchResults extends HTMLElement {
         this.results = results;
         const container = this.querySelector('#resultsList');
         
-        if (results.length === 0) {
+        if (!results || results.length === 0) {
             container.innerHTML = '<div class="no-results">Ничего не найдено</div>';
             return;
         }
@@ -41,7 +41,7 @@ export default class SearchResults extends HTMLElement {
                         <strong>Широта:</strong> ${result.lat.toFixed(6)}
                     </span>
                     <span class="coord-item">
-                        <strong>Долгота:</strong> ${result.lng.toFixed(6)}
+                        <strong>Долгота:</strong> ${result.lon.toFixed(6)}
                     </span>
                 </div>
                 <div class="result-meta">
@@ -61,6 +61,8 @@ export default class SearchResults extends HTMLElement {
         this.querySelectorAll('.result-item').forEach(item => {
             const resultId = parseInt(item.dataset.id);
             const result = this.results.find(r => r.id === resultId);
+            
+            if (!result) return;
             
             // Клик по всей карточке
             item.addEventListener('click', (e) => {
@@ -86,7 +88,9 @@ export default class SearchResults extends HTMLElement {
         });
         
         const selectedItem = this.querySelector(`[data-id="${result.id}"]`);
-        selectedItem.classList.add('active');
+        if (selectedItem) {
+            selectedItem.classList.add('active');
+        }
         
         // Отправляем событие с выбранным результатом
         document.dispatchEvent(new CustomEvent('result-click', {

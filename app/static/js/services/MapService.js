@@ -20,7 +20,7 @@ export default class MapService {
         this.clearMarkers();
         
         // Устанавливаем вид на выбранное место
-        this.map.setView([place.lat, place.lng], 15);
+        this.map.setView([place.lat, place.lon], 15);
         
         // Создаем кастомную иконку для маркера
         const customIcon = L.divIcon({
@@ -34,14 +34,14 @@ export default class MapService {
         });
 
         // Добавляем маркер
-        this.selectedMarker = L.marker([place.lat, place.lng], { icon: customIcon })
+        this.selectedMarker = L.marker([place.lat, place.lon], { icon: customIcon })
             .addTo(this.map)
             .bindPopup(`
                 <div class="popup-content">
                     <p class="popup-address"><strong>${place.address}</strong></p>
                     <div class="popup-coordinates">
                         <div><strong>Широта:</strong> ${place.lat.toFixed(6)}</div>
-                        <div><strong>Долгота:</strong> ${place.lng.toFixed(6)}</div>
+                        <div><strong>Долгота:</strong> ${place.lon.toFixed(6)}</div>
                     </div>
                     <div class="popup-score">
                         <div class="score-bar">
@@ -74,15 +74,17 @@ export default class MapService {
     showAllResults(results) {
         this.clearMarkers();
         
+        if (!results || results.length === 0) return;
+        
         results.forEach(place => {
-            const marker = L.marker([place.lat, place.lng])
+            const marker = L.marker([place.lat, place.lon])
                 .addTo(this.map)
                 .bindPopup(`
                     <div class="popup-content">
                         <p class="popup-address"><strong>${place.address}</strong></p>
                         <div class="popup-coordinates">
                             <div><strong>Широта:</strong> ${place.lat.toFixed(6)}</div>
-                            <div><strong>Долгота:</strong> ${place.lng.toFixed(6)}</div>
+                            <div><strong>Долгота:</strong> ${place.lon.toFixed(6)}</div>
                         </div>
                         <div class="popup-score">
                             <div class="score-value">Соответствие: ${place.score}%</div>
@@ -94,10 +96,8 @@ export default class MapService {
             this.markers.push(marker);
         });
 
-        // Если есть результаты, подстраиваем вид карты чтобы показать все маркеры
-        if (results.length > 0) {
-            const group = new L.featureGroup(this.markers);
-            this.map.fitBounds(group.getBounds().pad(0.1));
-        }
+        // Подстраиваем вид карты чтобы показать все маркеры
+        const group = new L.featureGroup(this.markers);
+        this.map.fitBounds(group.getBounds().pad(0.1));
     }
 }

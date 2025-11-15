@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 from fastapi.responses import HTMLResponse, FileResponse
 
+from loguru import logger
 
 router = APIRouter()
 
@@ -11,29 +12,8 @@ async def index():
 
 
 @router.post("/api/search/")
-async def get_user_text(json: dict):
-    return {
-        "results": [
-            {
-                "id": 1,
-                "address": "ул. Примерная, 1, Москва, Россия",
-                "lat": 55.753544,
-                "lng": 37.621202,
-                "score": 85,
-            },
-            {
-                "id": 2,
-                "address": "пр. Тестовый, 15, Москва, Россия",
-                "lat": 55.754544,
-                "lng": 37.622202,
-                "score": 92,
-            },
-            {
-                "id": 3,
-                "address": "пер. Демонстрационный, 7, Москва, Россия",
-                "lat": 55.755544,
-                "lng": 37.623202,
-                "score": 76,
-            },
-        ]
-    }
+async def get_user_text(line: dict) -> list:
+    result = {"id": 1, "address": "assress", "lat": 0.0, "lon": 0.0, "score": 100.0}
+    logger.info(line)
+    logger.info(result)
+    return [result]

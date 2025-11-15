@@ -85,22 +85,24 @@ class App {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ query })
+                body: JSON.stringify({ line: query })
             });
             
             if (!response.ok) {
                 throw new Error('Ошибка поиска');
             }
             
-            const data = await response.json();
-            this.currentResults = data.results;
+            // Теперь получаем массив напрямую, а не объект с results
+            const results = await response.json();
+            this.currentResults = results;
             
+            // Передаем массив напрямую
             document.dispatchEvent(new CustomEvent('search-results', {
-                detail: data.results
+                detail: results
             }));
 
             // Показываем все результаты на карте
-            this.mapService.showAllResults(data.results);
+            this.mapService.showAllResults(results);
             
         } catch (error) {
             console.error('Ошибка поиска:', error);
