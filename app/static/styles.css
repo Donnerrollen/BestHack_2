@@ -10,15 +10,16 @@
     --transition-fast: 0.2s ease;
     --transition-normal: 0.3s ease;
     
-    /* Скругления - только для кнопок */
+    /* Скругления */
     --radius-button: 8px;
+    --radius-input: 6px;
 }
 
 /* Темная тема (по умолчанию) */
 .dark-theme {
     --bg-primary: #0a0f1c;
     --bg-secondary: #1a2332;
-    --bg-gradient: linear-gradient(to bottom, #0f4d2e 0%, #1e3b70 100%);
+    --bg-gradient: linear-gradient(135deg, #0f4d2e 0%, #1a3b5a 30%, #2c2c54 70%, #1e1e3f 100%);
     --text-primary: #ffffff;
     --text-secondary: #b8c2cc;
     --accent-primary: #4CAF50;
@@ -34,7 +35,7 @@
 .light-theme {
     --bg-primary: #f8fafc;
     --bg-secondary: #ffffff;
-    --bg-gradient: linear-gradient(to bottom, #e8f5e8 0%, #e3f2fd 100%);
+    --bg-gradient: linear-gradient(135deg, #e8f5e8 0%, #d4e7fa 30%, #e8e3f5 70%, #f0e8f5 100%);
     --text-primary: #2d3748;
     --text-secondary: #4a5568;
     --accent-primary: #45a049;
@@ -48,7 +49,7 @@
 
 /* Основные стили */
 body {
-    font-family: 'Oxygen', sans-serif;
+    font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: var(--bg-gradient);
     color: var(--text-primary);
     min-height: 100vh;
@@ -109,6 +110,7 @@ body {
     margin-bottom: 2rem;
     color: var(--text-primary);
     text-align: center;
+    letter-spacing: -0.5px;
 }
 
 /* Переработанная форма поиска */
@@ -127,6 +129,7 @@ search-form {
     border: 1px solid var(--search-border);
     padding: 4px;
     transition: all var(--transition-fast);
+    border-radius: var(--radius-input);
 }
 
 .search-form:focus-within {
@@ -159,8 +162,8 @@ search-form {
     border: none;
     background: transparent;
     color: var(--text-primary);
-    font-family: 'Oxygen', sans-serif;
-    font-size: 1.1rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
     font-weight: 400;
     transition: all var(--transition-fast);
     outline: none;
@@ -185,12 +188,13 @@ search-form {
     color: white;
     border: none;
     border-radius: var(--radius-button);
-    font-family: 'Oxygen', sans-serif;
-    font-weight: 500;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
     cursor: pointer;
     transition: all var(--transition-fast);
     font-size: 0.95rem;
     margin-left: auto;
+    letter-spacing: 0.3px;
 }
 
 .search-btn:hover {
@@ -212,6 +216,8 @@ search-form {
     border-radius: var(--radius-button);
     transition: all var(--transition-fast);
     font-size: 0.9rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
 }
 
 .clear-btn:hover {
@@ -226,24 +232,27 @@ search-results {
 
 .results-container h2 {
     font-size: 1.1rem;
-    font-weight: 500;
-    margin-bottom: 1rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
     color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .results-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
 }
 
 .result-item {
     background: var(--bg-primary);
     border: 1px solid var(--border-color);
+    border-radius: var(--radius-button);
     padding: 20px;
     cursor: pointer;
     transition: all var(--transition-fast);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
 }
 
 .result-item:hover {
@@ -252,18 +261,36 @@ search-results {
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
-.result-title {
-    font-weight: 500;
-    margin-bottom: 6px;
-    color: var(--text-primary);
-    font-size: 1.1rem;
+.result-item.active {
+    border-color: var(--accent-primary);
+    background: color-mix(in srgb, var(--accent-primary) 10%, transparent);
+    transform: translateX(4px);
 }
 
 .result-address {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
+    font-size: 1rem;
+    color: var(--text-primary);
     margin-bottom: 12px;
-    line-height: 1.4;
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+.result-coordinates {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.coord-item {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-family: 'Courier New', monospace;
+}
+
+.coord-item strong {
+    color: var(--text-primary);
+    font-weight: 600;
 }
 
 .result-meta {
@@ -272,13 +299,25 @@ search-results {
     align-items: center;
 }
 
-.result-rating {
-    color: #ffb400;
-    font-weight: 500;
-    font-size: 0.9rem;
+.result-score {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     gap: 4px;
+}
+
+.score-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #4CAF50;
+}
+
+.score-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-weight: 600;
 }
 
 .result-action {
@@ -286,11 +325,13 @@ search-results {
     color: white;
     border: none;
     border-radius: var(--radius-button);
-    padding: 8px 16px;
+    padding: 10px 18px;
     font-size: 0.9rem;
     cursor: pointer;
     transition: all var(--transition-fast);
-    font-weight: 500;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 0.3px;
 }
 
 .result-action:hover {
@@ -326,6 +367,7 @@ search-results {
     .search-panel {
         width: 100%;
         max-height: 40vh;
+        padding: 20px;
     }
     
     .map-container {
@@ -346,6 +388,11 @@ search-results {
     .search-form {
         margin-bottom: 1.5rem;
     }
+    
+    .app-title {
+        font-size: 1.3rem;
+        margin-bottom: 1.5rem;
+    }
 }
 
 /* Плавная прокрутка */
@@ -364,6 +411,7 @@ search-results {
 
 .search-panel::-webkit-scrollbar-thumb {
     background-color: var(--border-color);
+    border-radius: 3px;
 }
 
 /* Анимации */
@@ -397,74 +445,6 @@ search-results {
     animation: slideIn 0.4s ease-out;
 }
 
-/* Улучшения для Leaflet popup */
-.leaflet-popup-content-wrapper {
-    background: var(--bg-secondary);
-    color: var(--text-primary);
-    box-shadow: var(--shadow);
-    font-family: 'Oxygen', sans-serif;
-}
-
-.leaflet-popup-tip {
-    background: var(--bg-secondary);
-}
-
-.leaflet-popup-content h6 {
-    color: var(--text-primary);
-    margin-bottom: 8px;
-    font-weight: 600;
-}
-
-.leaflet-popup-content p {
-    color: var(--text-secondary);
-    margin-bottom: 4px;
-    font-size: 0.9rem;
-}/* Стили для активной карточки */
-.result-item.active {
-    border-color: var(--accent-primary);
-    background: color-mix(in srgb, var(--accent-primary) 10%, transparent);
-    transform: translateX(4px);
-}
-
-/* Стили для координат */
-.result-coordinates {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    margin-bottom: 12px;
-}
-
-.coord-item {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-}
-
-.coord-item strong {
-    color: var(--text-primary);
-    font-weight: 500;
-}
-
-/* Стили для процента соответствия */
-.result-score {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-}
-
-.score-value {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #4CAF50;
-}
-
-.score-label {
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
 /* Стили для кастомных маркеров */
 .custom-marker {
     position: relative;
@@ -496,11 +476,25 @@ search-results {
     white-space: nowrap;
     box-shadow: var(--shadow);
     border: 1px solid var(--border-color);
+    font-family: 'Montserrat', sans-serif;
 }
 
 /* Стили для popup */
+.leaflet-popup-content-wrapper {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    box-shadow: var(--shadow);
+    font-family: 'Montserrat', sans-serif;
+    border-radius: var(--radius-button);
+}
+
+.leaflet-popup-tip {
+    background: var(--bg-secondary);
+}
+
 .popup-content {
     min-width: 250px;
+    padding: 5px;
 }
 
 .popup-address {
@@ -508,6 +502,7 @@ search-results {
     font-size: 0.95rem;
     margin-bottom: 12px;
     line-height: 1.4;
+    font-weight: 500;
 }
 
 .popup-coordinates {
@@ -515,6 +510,7 @@ search-results {
     color: var(--text-secondary);
     margin-bottom: 12px;
     line-height: 1.4;
+    font-family: 'Courier New', monospace;
 }
 
 .popup-coordinates div {
@@ -540,10 +536,11 @@ search-results {
     transition: width 0.3s ease;
 }
 
-.score-value {
+.popup-score-value {
     font-size: 0.85rem;
     color: var(--text-secondary);
     text-align: center;
+    font-weight: 600;
 }
 
 .popup-select-btn {
@@ -553,10 +550,11 @@ search-results {
     border-radius: var(--radius-button);
     padding: 8px 16px;
     cursor: pointer;
-    font-family: 'Oxygen', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 0.9rem;
     transition: all var(--transition-fast);
     width: 100%;
+    font-weight: 600;
 }
 
 .popup-select-btn:hover {
@@ -578,3 +576,18 @@ search-results {
 .score-excellent { color: #4CAF50; }
 .score-good { color: #FFC107; }
 .score-poor { color: #F44336; }
+
+/* Улучшенные градиенты и тени */
+.search-panel {
+    background: color-mix(in srgb, var(--bg-secondary) 95%, transparent);
+    backdrop-filter: blur(20px);
+}
+
+.theme-btn {
+    backdrop-filter: blur(15px);
+}
+
+/* Более плавные переходы */
+* {
+    transition: color var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
