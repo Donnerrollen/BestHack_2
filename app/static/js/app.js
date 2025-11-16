@@ -80,7 +80,7 @@ class App {
                 return;
             }
 
-            const response = await fetch('/api/search/', {
+            const response = await fetch('/search/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
