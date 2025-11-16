@@ -1,1 +1,2 @@
 output_model/model.safetensors filter=lfs diff=lfs merge=lfs -text
+embdb.csv filter=lfs diff=lfs merge=lfs -text
