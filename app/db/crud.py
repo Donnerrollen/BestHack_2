@@ -15,9 +15,7 @@ async def add_address(
     await session.refresh(addr)
 
 
-async def get_addr(
-    session: AsyncSession,
-) -> list[Address]:
+async def get_addr(address: str, session: AsyncSession) -> list[dict]:
     query = select(Address)
     addreses = (await session.execute(query)).scalars().all()
-    return list(addreses)
+    return [address.to_dict() for address in addreses]
