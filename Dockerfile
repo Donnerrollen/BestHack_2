@@ -17,7 +17,6 @@ RUN poetry config virtualenvs.create false && \
   poetry install --no-interaction --no-cache --no-root
 
 COPY ./embdb.csv ./embdb.csv
-COPY ./output_model/ ./output_model/
 COPY main.py ./
 COPY ./app ./app
 
@@ -31,7 +30,6 @@ RUN poetry config virtualenvs.create false && \
   poetry install --without dev --no-interaction --no-cache --no-root
 
 COPY ./embdb.csv ./embdb.csv
-COPY ./output_model/ ./output_model/
 COPY main.py ./
 COPY ./app ./app
 

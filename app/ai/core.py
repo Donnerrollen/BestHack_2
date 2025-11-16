@@ -3,6 +3,7 @@ from sentence_transformers.util import cos_sim
 from app.storage import storage
 
 model = SentenceTransformer("cointegrated/rubert-tiny2")
+model.save("model")
 
 
 def cos_dit(text):

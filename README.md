@@ -3,9 +3,6 @@
 ![Python](https://img.shields.io/badge/Python-3.13+-blue?logo=python)
 ![FastAPI](https://img.shields.io/badge/FastAPI-+-red?logo=fastapi)
 ![Docker](https://img.shields.io/badge/Docker-✓-blue?logo=docker)
-![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-+-red?logo=sqlalchemy)
-![Chroma](https://img.shields.io/badge/Chroma-+-green?logo=vector-database)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-+-blue?logo=postgresql)
 
 ## 🚀 Быстрый старт
 
