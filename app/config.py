@@ -1,11 +1,12 @@
 from dotenv import load_dotenv
+from pydantic import Field
 from pydantic_settings import BaseSettings
 
 load_dotenv()
 
 
 class BaseConfig(BaseSettings):
-    pass
+    DATABASE_URL: str = Field()
 
 
 class Config(BaseConfig):

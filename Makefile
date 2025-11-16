@@ -1,4 +1,5 @@
 include .env
+include alembic/Makefile
 
 DOCKER_COMPOSE=docker compose -f docker-compose.yml
 DOCKER_COMPOSE_RUN=${DOCKER_COMPOSE} run --rm app

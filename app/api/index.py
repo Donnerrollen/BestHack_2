@@ -7,7 +7,7 @@ router = APIRouter()
 
 
 @router.get("/", response_class=HTMLResponse)
-async def index():
+async def index() -> FileResponse:
     return FileResponse("app/static/index.html")
 
 

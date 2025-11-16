@@ -16,8 +16,9 @@ COPY poetry.lock pyproject.toml ./
 RUN poetry config virtualenvs.create false && \
   poetry install --no-interaction --no-cache --no-root
 
-COPY main.py ./
+COPY alembic.ini main.py ./
 COPY ./app ./app
+COPY ./alembic ./alembic
 
 CMD ["/bin/bash", "-c", "python main.py"]
 
@@ -28,7 +29,8 @@ COPY poetry.lock pyproject.toml ./
 RUN poetry config virtualenvs.create false && \
   poetry install --without dev --no-interaction --no-cache --no-root
 
-COPY main.py ./
+COPY alembic.ini main.py ./
 COPY ./app ./app
+COPY ./alembic ./alembic
 
 CMD ["/bin/bash", "-c", "python main.py"]
