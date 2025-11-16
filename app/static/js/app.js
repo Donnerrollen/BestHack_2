@@ -92,17 +92,25 @@ class App {
                 throw new Error('Ошибка поиска');
             }
             
-            // Теперь получаем массив напрямую, а не объект с results
-            const results = await response.json();
-            this.currentResults = results;
+            // Обрабатываем новый формат JSON
+            const data = await response.json();
             
-            // Передаем массив напрямую
+            // Преобразуем объекты в нужный формат
+            this.currentResults = data.objects.map((obj, index) => ({
+                id: index,
+                address: this.formatAddress(obj),
+                lat: parseFloat(obj.lat),
+                lon: parseFloat(obj.lon),
+                score: Math.round(obj.score * 100) // Преобразуем в проценты
+            }));
+            
+            // Передаем преобразованный массив
             document.dispatchEvent(new CustomEvent('search-results', {
-                detail: results
+                detail: this.currentResults
             }));
 
             // Показываем все результаты на карте
-            this.mapService.showAllResults(results);
+            this.mapService.showAllResults(this.currentResults);
             
         } catch (error) {
             console.error('Ошибка поиска:', error);
@@ -110,6 +118,11 @@ class App {
                 detail: 'Не удалось выполнить поиск'
             }));
         }
+    }
+
+    formatAddress(obj) {
+        const parts = [obj.locality, obj.street, obj.number].filter(part => part && part.trim() !== '');
+        return parts.join(', ');
     }
 
     handleResultClick(result) {

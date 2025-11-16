@@ -1,4 +1,5 @@
 import sys
+from app.storage import storage
 from pathlib import Path
 
 
@@ -7,6 +8,7 @@ from fastapi.staticfiles import StaticFiles
 from loguru import logger
 from app.api.register import register_routers
 from fastapi.middleware.cors import CORSMiddleware
+from app.ai.parce import parse_embs
 
 
 class Application:
@@ -34,6 +36,8 @@ class Application:
             allow_methods=["*"],
             allow_headers=["*"],
         )
+
+        storage.ADDRESES, storage.TENSORS = parse_embs()
 
         register_routers(app)
         app.mount("/static", StaticFiles(directory=Path("app/static"), html=True))

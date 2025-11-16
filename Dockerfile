@@ -16,9 +16,10 @@ COPY poetry.lock pyproject.toml ./
 RUN poetry config virtualenvs.create false && \
   poetry install --no-interaction --no-cache --no-root
 
-COPY alembic.ini main.py ./
+COPY ./embdb.csv ./embdb.csv
+COPY ./output_model/ ./output_model/
+COPY main.py ./
 COPY ./app ./app
-COPY ./alembic ./alembic
 
 CMD ["/bin/bash", "-c", "python main.py"]
 
@@ -29,8 +30,9 @@ COPY poetry.lock pyproject.toml ./
 RUN poetry config virtualenvs.create false && \
   poetry install --without dev --no-interaction --no-cache --no-root
 
-COPY alembic.ini main.py ./
+COPY ./embdb.csv ./embdb.csv
+COPY ./output_model/ ./output_model/
+COPY main.py ./
 COPY ./app ./app
-COPY ./alembic ./alembic
 
 CMD ["/bin/bash", "-c", "python main.py"]

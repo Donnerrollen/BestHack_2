@@ -63,8 +63,11 @@ export default class MapService {
     }
 
     clearMarkers() {
+        // Явно удаляем все маркеры с карты
         this.markers.forEach(marker => {
-            this.map.removeLayer(marker);
+            if (marker && this.map.hasLayer(marker)) {
+                this.map.removeLayer(marker);
+            }
         });
         this.markers = [];
         this.selectedMarker = null;

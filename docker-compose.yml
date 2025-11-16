@@ -8,32 +8,10 @@ services:
       context: ./
       target: development
     env_file: ".env"
-    volumes:
-      - ./alembic/versions:/app/alembic/versions
     ports:
       - 8000:8000
     networks:
       - net
-    depends_on:
-      - db
-
-  db:
-    image: postgres:17
-    container_name: db_best
-    restart: always
-    environment:
-      POSTGRES_DB: db_best
-      POSTGRES_USER: user_best
-      POSTGRES_PASSWORD: pass_best
-    ports:
-      - 5432:5432 
-    volumes:
-      - besthack_pg_data:/var/lib/postgresql/data
-    networks:
-      - net
-
-volumes:
-  besthack_pg_data:
 
 networks:
   net:
